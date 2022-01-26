@@ -21,25 +21,38 @@ public class IndividualCharacterController : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.name == "LeftBorder") 
+        if (other.gameObject.name == "LeftBorder")
         {
             MovementController.maxLeft = FindObjectOfType<MovementController>().gameObject.transform.position.x;
         }
-        if (collision.gameObject.name == "RightBorder")
+        if (other.gameObject.name == "RightBorder")
         {
             MovementController.maxRight = FindObjectOfType<MovementController>().gameObject.transform.position.x;
         }
+
+        if (other.gameObject.layer == 9)
+        {
+            onCharacterDestroy();
+        }
     }
 
-    private void OnCollisionExit(Collision collision)
+    void onCharacterDestroy() {
+        transform.parent = null;
+        FindObjectOfType<MovementController>().UpdateAnimators();
+        Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+        Instantiate(FindObjectOfType<GameManager>().characterDestroyEffect, pos, Quaternion.identity);         
+        Destroy(this.gameObject);
+    }
+
+    private void OnTriggerExit(Collider other)
     {
-        if (collision.gameObject.name == "LeftBorder")
+        if (other.gameObject.name == "LeftBorder")
         {
             MovementController.maxLeft = MaxLeft;
         }
-        if (collision.gameObject.name == "RightBorder")
+        if (other.gameObject.name == "RightBorder")
         {
             MovementController.maxRight = MaxRight;
         }

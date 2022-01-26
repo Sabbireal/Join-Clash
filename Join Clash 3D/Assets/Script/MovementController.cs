@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MovementController : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class MovementController : MonoBehaviour
 
     public static float maxLeft;
     public static float maxRight;
+
+    public event Action onGameOver;
 
     float runningSpeed;
 
@@ -52,7 +55,11 @@ public class MovementController : MonoBehaviour
         }
     }
 
-    void UpdateAnimators() {
+    public void UpdateAnimators() {
         animators = GetComponentsInChildren<Animator>();
+
+        if (animators.Length <= 0) {
+            onGameOver?.Invoke();
+        }
     }
 }
