@@ -1169,6 +1169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f86c4bcd28dfd8b4993b7cb94a36950b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doRun: 1
   target: {fileID: 685134902}
 --- !u!4 &1026024415
 Transform:
@@ -1593,6 +1594,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 373559709}
     m_Modifications:
+    - target: {fileID: 1335874825, guid: f0117d8fb6887a948a933026dd09b9f8, type: 3}
+      propertyPath: m_Size.x
+      value: 0.91076934
+      objectReference: {fileID: 0}
+    - target: {fileID: 1335874825, guid: f0117d8fb6887a948a933026dd09b9f8, type: 3}
+      propertyPath: m_Center.x
+      value: 0.044615053
+      objectReference: {fileID: 0}
     - target: {fileID: 4688395334318035338, guid: f0117d8fb6887a948a933026dd09b9f8, type: 3}
       propertyPath: m_RootOrder
       value: 0

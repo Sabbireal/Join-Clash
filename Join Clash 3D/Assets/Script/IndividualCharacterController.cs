@@ -44,12 +44,12 @@ public class IndividualCharacterController : MonoBehaviour
         {
             UniversalController.maxRight = FindObjectOfType<UniversalController>().gameObject.transform.position.x;
         }
-        if (other.gameObject.layer == 9)
+        if (other.gameObject.layer == 9 && isInControl)
         {
             onCharacterDestroy();
         }
 
-        if (other.gameObject.layer == 8 && enemy != null)
+        if (other.gameObject.layer == 8 && isInControl)
         {
             OnCollideWithNeutral();
         }
@@ -59,7 +59,7 @@ public class IndividualCharacterController : MonoBehaviour
             OnCollideWithEnemyTrigger(other.transform.parent.gameObject);
         }
 
-        if (other.gameObject.layer == 10 && enemy!=null)
+        if (other.gameObject.layer == 10 && !isInControl)
         {
             OnCollideWithEnemy();
         }
@@ -81,6 +81,7 @@ public class IndividualCharacterController : MonoBehaviour
     void OnCollideWithEnemyTrigger(GameObject enemy) {
         if (enemy.GetComponent<IndividualEnemyController>().isAttacked == false) {
             this.enemy = enemy;
+            isInControl = false;
             enemy.GetComponent<IndividualEnemyController>().isAttacked = true;
             Debug.Log(this.gameObject.name);
             enemy.GetComponent<IndividualEnemyController>().player = this.gameObject;
