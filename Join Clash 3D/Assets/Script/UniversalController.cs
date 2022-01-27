@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class MovementController : MonoBehaviour
+public class UniversalController : MonoBehaviour
 {
     GameObject players;
     Animator[] animators;
@@ -19,7 +19,10 @@ public class MovementController : MonoBehaviour
     void Start()
     {
         players = this.gameObject;
-        animators = GetComponentsInChildren<Animator>();
+
+
+        UpdateAnimators();
+        updateisInControl();
 
         FindObjectOfType<GameManager>().startRunning += StartRunning;
         FindObjectOfType<GameManager>().playersMovement += MoveToLeftOrRight;
@@ -59,7 +62,13 @@ public class MovementController : MonoBehaviour
         animators = GetComponentsInChildren<Animator>();
 
         if (animators.Length <= 0) {
-            onGameOver?.Invoke();
+            onGameOver?.Invoke(); //careful
+        }
+    }
+
+    void updateisInControl() {
+        for (int i = 0; i < animators.Length; i++) {
+            animators[i].gameObject.GetComponent<IndividualCharacterController>().isInControl = true;
         }
     }
 }

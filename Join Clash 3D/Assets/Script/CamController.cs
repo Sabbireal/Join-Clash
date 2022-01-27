@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CamController : MonoBehaviour
 {
+    public bool doRun = true;
     public Transform target;
 
     // Start is called before the first frame update
@@ -15,6 +16,7 @@ public class CamController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.transform.position = new Vector3(0, 0, target.position.z);    
+        if(doRun)
+            this.transform.position = new Vector3(0, 0, target.position.z);    
     }
 }

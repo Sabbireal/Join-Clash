@@ -6,7 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public float runningSpeed = 10f;
+    public float runningSpeed = 5f;
+    public float SprintngSpeed = 10f;
     public float movementSensitivity = 5f;
     public GameObject characterDestroyEffect;
 
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FindObjectOfType<MovementController>().onGameOver += callOnGameOver;
+        FindObjectOfType<UniversalController>().onGameOver += callOnGameOver;
     }
 
     // Update is called once per frame
@@ -52,7 +53,8 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator onGameOver() {
-        yield return new WaitForSeconds(0.5f);
+        FindObjectOfType<CamController>().doRun = false;
+        yield return new WaitForSeconds(2f);
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
