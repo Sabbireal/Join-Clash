@@ -53,10 +53,6 @@ public class IndividualCharacterController : MonoBehaviour
         {
             OnCollideWithNeutral();
         }
-        else if (other.gameObject.layer == 11)
-        {
-            OnCollideWithEnemyTrigger(other.transform.parent.gameObject);
-        }
         else if (other.gameObject.layer == 10 && !isInControl)
         {
             OnCollideWithEnemy();
@@ -76,7 +72,7 @@ public class IndividualCharacterController : MonoBehaviour
         
     }
 
-    void OnCollideWithEnemyTrigger(GameObject enemy) {
+    public void attackEnemy(GameObject enemy) {
         if (enemy.GetComponent<IndividualEnemyController>().isAttacked == false) {
             this.enemy = enemy;
             isInControl = false;

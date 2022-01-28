@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.AI;
 
 public class UniversalController : MonoBehaviour
 {
@@ -15,11 +16,13 @@ public class UniversalController : MonoBehaviour
     public event Action onWin;
 
     float runningSpeed;
+    NavMeshPath navMeshPath;
 
     // Start is called before the first frame update
     void Start()
     {
         players = this.gameObject;
+        navMeshPath = new NavMeshPath();
 
         UpdateAnimators();
         UpdateisInControl();
@@ -48,7 +51,7 @@ public class UniversalController : MonoBehaviour
 
     void MoveToLeftOrRight(int dir, float speed)
     {
-        if(dir != 0)
+        if (dir != 0)
             players.transform.position = new Vector3(Mathf.Clamp(players.transform.position.x + dir * Time.deltaTime * speed, maxLeft, maxRight), 0.5f, players.transform.position.z);
         MoveToLeftOrRight_anim(dir);
     }
@@ -90,11 +93,73 @@ public class UniversalController : MonoBehaviour
         {
             GameManager.isCalculatingProgress = true;
         }
-        
+
         if (other.gameObject.layer == 13)
         {
             onWin?.Invoke();
         }
+
+        if (other.gameObject.layer == 11) {
+            OnCollideWithEnemyTrigger(other.transform.parent.gameObject);
+        }
     }
 
+    void OnCollideWithEnemyTrigger(GameObject enemy) {
+        Debug.Log("Enemy Ahead");
+        FindClosetPlayerFromEnemy(enemy).GetComponent<IndividualCharacterController>().attackEnemy(enemy);
+    }
+
+    GameObject FindClosetPlayerFromEnemy(GameObject enemy) {
+        int playerNo = 0;
+        float shortestDistance = 0;
+
+        for (int i = 0; i < animators.Length; i++) {
+            NavMeshAgent navMeshAgent = animators[i].transform.GetChild(2).gameObject.GetComponent<NavMeshAgent>();
+            bool isAv = isPathAvailbale(navMeshAgent, enemy.transform);
+
+            
+            if (isAv) {
+                if (i == 0) {
+                    shortestDistance = getPathLength(navMeshPath);
+                }
+                else {
+                    if (getPathLength(navMeshPath) < shortestDistance) {
+                        playerNo = i;
+                        shortestDistance = getPathLength(navMeshPath);
+                    }
+                }
+            }
+
+            Debug.Log(animators[i].gameObject.name + " " + shortestDistance);
+        }
+
+        return animators[playerNo].gameObject;
+    }
+
+    bool isPathAvailbale(NavMeshAgent player, Transform EnemyPos) {
+        player.CalculatePath(EnemyPos.position, navMeshPath);
+
+        if (navMeshPath.status != NavMeshPathStatus.PathComplete)
+        {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    float getPathLength(NavMeshPath navMeshPath)
+    {
+        float length = 0.0f;
+
+        if ((navMeshPath.status != NavMeshPathStatus.PathInvalid) && (navMeshPath.corners.Length > 1))
+        {
+            for (int i = 1; i < navMeshPath.corners.Length; ++i)
+            {
+                length += Vector3.Distance(navMeshPath.corners[i - 1], navMeshPath.corners[i]);
+            }
+        }
+
+        return length;
+    }
 }
