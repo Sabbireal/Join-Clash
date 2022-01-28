@@ -83,11 +83,11 @@ public class GameManager : MonoBehaviour
 
         if (isCalculatingProgress) calculateProgress();
 
-        if (Input.GetKey(KeyCode.A) && players.position.x > PlayersManager.maxLeft) {
+        if (Input.GetKey(KeyCode.LeftArrow) && players.position.x > PlayersManager.maxLeft) {
             playersMovement?.Invoke(-1, movementSensitivity);
             isMovingLeftToRight = true;
         }
-        else if (Input.GetKey(KeyCode.D) && players.position.x < PlayersManager.maxRight){
+        else if (Input.GetKey(KeyCode.RightArrow) && players.position.x < PlayersManager.maxRight){
             playersMovement?.Invoke(1, movementSensitivity);
             isMovingLeftToRight = true;
         }
