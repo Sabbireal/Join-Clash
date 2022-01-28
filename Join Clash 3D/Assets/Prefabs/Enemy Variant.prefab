@@ -25,8 +25,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1335874823}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.08, y: 0.52, z: 9.51}
-  m_LocalScale: {x: 4.6661315, y: 1, z: 1}
+  m_LocalPosition: {x: -1.75, y: 0.52, z: 18.13}
+  m_LocalScale: {x: 8.659407, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4688395334318035338}
@@ -43,8 +43,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.91076934, y: 1, z: 1}
+  m_Center: {x: 0.044615053, y: 0, z: 0}
 --- !u!1001 &4688395334318426916
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,15 +186,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400046, guid: cb7c39ae0485b41e8bd59ad2781be0a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.4
+      value: -1.7685181
       objectReference: {fileID: 0}
     - target: {fileID: 400046, guid: cb7c39ae0485b41e8bd59ad2781be0a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: -1.5914505
       objectReference: {fileID: 0}
     - target: {fileID: 400046, guid: cb7c39ae0485b41e8bd59ad2781be0a3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -57.3
+      value: -4.2417946
       objectReference: {fileID: 0}
     - target: {fileID: 400046, guid: cb7c39ae0485b41e8bd59ad2781be0a3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -202,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400046, guid: cb7c39ae0485b41e8bd59ad2781be0a3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400046, guid: cb7c39ae0485b41e8bd59ad2781be0a3, type: 3}
       propertyPath: m_LocalRotation.y
@@ -210,7 +210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400046, guid: cb7c39ae0485b41e8bd59ad2781be0a3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 400046, guid: cb7c39ae0485b41e8bd59ad2781be0a3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -797,8 +797,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0326445, y: 1.4930112, z: 0.38450623}
-  m_Center: {x: -0.0018340349, y: 0.7587043, z: 0.4465027}
+  m_Size: {x: 1.0326445, y: 1.4930112, z: 0.49204636}
+  m_Center: {x: -0.0018340349, y: 0.7587043, z: 0.39273262}
 --- !u!114 &2580145177865625449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,7 +812,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAttacked: 0
-  player: {fileID: 0}
 --- !u!1 &4688395334318525940 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100048, guid: cb7c39ae0485b41e8bd59ad2781be0a3, type: 3}

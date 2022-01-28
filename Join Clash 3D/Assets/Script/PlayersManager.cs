@@ -153,11 +153,12 @@ public class PlayersManager : MonoBehaviour
         return length;
     }
 
-    public void addMember(GameObject potentialPlayer) {
-        potentialPlayer.transform.parent = this.gameObject.transform;
-        potentialPlayer.layer = 6;
-        potentialPlayer.GetComponent<IndividualCharacterController>().isInControl = true;
-        potentialPlayer.GetComponent<Animator>().SetBool("IsRunning", true);
+    public void addMember(GameObject newPlayer) {
+        newPlayer.transform.parent = this.gameObject.transform;
+        newPlayer.layer = 6;
+        newPlayer.GetComponent<IndividualCharacterController>().isInControl = true;
+        newPlayer.transform.GetChild(0).gameObject.GetComponent<SkinnedMeshRenderer>().material = FindObjectOfType<GameManager>().player_Mat;
+        newPlayer.GetComponent<Animator>().SetBool("IsRunning", true);
         UpdateAnimators();
     }
 }

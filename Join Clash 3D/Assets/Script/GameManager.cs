@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
     float pathLength;
     public static bool isCalculatingProgress = false;
 
+    [Header("Material")]
+    public Material player_Mat;
 
 
     public event Action<float> startRunning;

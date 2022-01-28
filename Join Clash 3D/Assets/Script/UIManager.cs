@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public GameObject Restart_Btn;
     public GameObject Progress_Slider;
     public GameObject resutlTxt;
+    public GameObject Canvas;
 
     public event Action StartEvent;
     public event Action RestartEvent;
@@ -21,7 +22,8 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("UI Manager Loaded");
         subscribe();
-        DontDestroyOnLoad(this.gameObject);
+
+        Canvas.GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
 
@@ -39,6 +41,8 @@ public class UIManager : MonoBehaviour
         FindObjectOfType<GameManager>().showRestartBtnEvent += showRestartBtn;
         FindObjectOfType<GameManager>().sentProgress += setValueOfProgressBar;
         FindObjectOfType<GameManager>().sentResult += setTxt;
+
+        Canvas.GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
     void showStartBtn()
