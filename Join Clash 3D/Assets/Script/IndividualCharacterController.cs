@@ -10,8 +10,8 @@ public class IndividualCharacterController : MonoBehaviour
     bool goFight = false;
     GameObject enemy;
 
-    float MaxLeft = -3.5f;
-    float MaxRight = 3.5f;
+    float MaxLeft = -10;
+    float MaxRight = 10;
 
     GameManager gameManager;
     PlayersManager playersManager;
