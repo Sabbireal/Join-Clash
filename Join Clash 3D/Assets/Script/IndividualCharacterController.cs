@@ -12,15 +12,15 @@ public class IndividualCharacterController : MonoBehaviour
 
     float MaxLeft = -3.5f;
     float MaxRight = 3.5f;
-    
+
     Animator animator;
     // Start is called before the first frame update
     void Start()
     {
         enemy = null;
 
-        UniversalController.maxLeft = MaxLeft;
-        UniversalController.maxRight = MaxRight;
+        PlayersManager.maxLeft = MaxLeft;
+        PlayersManager.maxRight = MaxRight;
 
         animator = GetComponent<Animator>();
         sprintngSpeed = FindObjectOfType<GameManager>().SprintngSpeed;
@@ -38,11 +38,11 @@ public class IndividualCharacterController : MonoBehaviour
     {
         if (other.gameObject.name == "LeftBorder")
         {
-            UniversalController.maxLeft = FindObjectOfType<UniversalController>().gameObject.transform.position.x;
+            PlayersManager.maxLeft = FindObjectOfType<PlayersManager>().gameObject.transform.position.x;
         }
         if (other.gameObject.name == "RightBorder")
         {
-            UniversalController.maxRight = FindObjectOfType<UniversalController>().gameObject.transform.position.x;
+            PlayersManager.maxRight = FindObjectOfType<PlayersManager>().gameObject.transform.position.x;
         }
         
         if (other.gameObject.layer == 9 && isInControl)
@@ -51,7 +51,7 @@ public class IndividualCharacterController : MonoBehaviour
         }
         else if (other.gameObject.layer == 8 && isInControl)
         {
-            OnCollideWithNeutral();
+            OnCollideWithNeutral(other.gameObject);
         }
         else if (other.gameObject.layer == 10 && !isInControl)
         {
@@ -62,14 +62,25 @@ public class IndividualCharacterController : MonoBehaviour
     void onCharacterDestroy() {
         isInControl = false;
         transform.parent = null;
-        FindObjectOfType<UniversalController>().UpdateAnimators();
+        FindObjectOfType<PlayersManager>().UpdateAnimators();
         Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
         Instantiate(FindObjectOfType<GameManager>().characterDestroyEffect, pos, Quaternion.identity);         
         Destroy(this.gameObject);
     }
 
-    void OnCollideWithNeutral() { 
-        
+    void OnCollideWithNeutral(GameObject neutral) {
+        Debug.Log("Neutral Character Found");
+        if (neutral.transform.parent.tag == "group")
+        {
+            IndividualCharacterController[] tempArray = neutral.transform.parent.gameObject.GetComponentsInChildren<IndividualCharacterController>();
+
+            for (int i = 0; i < tempArray.Length; i++) {
+                FindObjectOfType<PlayersManager>().addMember(tempArray[i].gameObject);
+            }
+        }
+        else {
+            FindObjectOfType<PlayersManager>().addMember(neutral);
+        }
     }
 
     public void attackEnemy(GameObject enemy) {
@@ -77,11 +88,10 @@ public class IndividualCharacterController : MonoBehaviour
             this.enemy = enemy;
             isInControl = false;
             enemy.GetComponent<IndividualEnemyController>().isAttacked = true;
-            Debug.Log(this.gameObject.name);
             enemy.GetComponent<IndividualEnemyController>().player = this.gameObject;
 
             transform.parent = null;
-            FindObjectOfType<UniversalController>().UpdateAnimators();
+            FindObjectOfType<PlayersManager>().UpdateAnimators();
 
             animator.SetFloat("Direction", 2);
 
@@ -107,11 +117,11 @@ public class IndividualCharacterController : MonoBehaviour
     {
         if (other.gameObject.name == "LeftBorder")
         {
-            UniversalController.maxLeft = MaxLeft;
+            PlayersManager.maxLeft = MaxLeft;
         }
         if (other.gameObject.name == "RightBorder")
         {
-            UniversalController.maxRight = MaxRight;
+            PlayersManager.maxRight = MaxRight;
         }
     }
 }

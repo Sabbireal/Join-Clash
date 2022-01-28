@@ -5,7 +5,7 @@ using UnityEngine;
 public class IndividualEnemyController : MonoBehaviour
 {
     public bool isAttacked = false;
-    public GameObject player;
+    internal GameObject player;
     Animator animator;
 
     bool doRun = false;

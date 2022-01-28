@@ -53,13 +53,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        players = FindObjectOfType<UniversalController>().transform;
+        players = FindObjectOfType<PlayersManager>().transform;
         pathLength = Vector3.Distance(StartingLine.position, EndingLine.position);
         
         FindObjectOfType<UIManager>().StartEvent += callStartRunning;
         FindObjectOfType<UIManager>().RestartEvent += callOnrestart;
-        FindObjectOfType<UniversalController>().allPlayerDead += CallOnAllPlayerDead;
-        FindObjectOfType<UniversalController>().onWin += callOnWin;
+        FindObjectOfType<PlayersManager>().allPlayerDead += CallOnAllPlayerDead;
+        FindObjectOfType<PlayersManager>().onWin += callOnWin;
     }
 
     // Update is called once per frame

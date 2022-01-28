@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.AI;
 
-public class UniversalController : MonoBehaviour
+public class PlayersManager : MonoBehaviour
 {
     GameObject players;
     public Animator[] animators;
@@ -48,21 +48,18 @@ public class UniversalController : MonoBehaviour
         }
         this.runningSpeed = runningSpeed;
     }
-
     void MoveToLeftOrRight(int dir, float speed)
     {
         if (dir != 0)
             players.transform.position = new Vector3(Mathf.Clamp(players.transform.position.x + dir * Time.deltaTime * speed, maxLeft, maxRight), 0.5f, players.transform.position.z);
         MoveToLeftOrRight_anim(dir);
     }
-
     void MoveToLeftOrRight_anim(int dir) {
         for (int i = 0; i < animators.Length; i++)
         {
             animators[i].SetFloat("Direction", dir);
         }
     }
-
     void stopRunning() {
         Debug.Log("stopRunning");
         for (int i = 0; i < animators.Length; i++)
@@ -75,12 +72,10 @@ public class UniversalController : MonoBehaviour
 
     public void UpdateAnimators() {
         animators = GetComponentsInChildren<Animator>();
-
         if (animators.Length <= 0) {
             allPlayerDead?.Invoke(); //careful
         }
     }
-
     void UpdateisInControl() {
         for (int i = 0; i < animators.Length; i++) {
             animators[i].gameObject.GetComponent<IndividualCharacterController>().isInControl = true;
@@ -108,7 +103,6 @@ public class UniversalController : MonoBehaviour
         Debug.Log("Enemy Ahead");
         FindClosetPlayerFromEnemy(enemy).GetComponent<IndividualCharacterController>().attackEnemy(enemy);
     }
-
     GameObject FindClosetPlayerFromEnemy(GameObject enemy) {
         int playerNo = 0;
         float shortestDistance = 0;
@@ -129,13 +123,10 @@ public class UniversalController : MonoBehaviour
                     }
                 }
             }
-
-            Debug.Log(animators[i].gameObject.name + " " + shortestDistance);
         }
 
         return animators[playerNo].gameObject;
     }
-
     bool isPathAvailbale(NavMeshAgent player, Transform EnemyPos) {
         player.CalculatePath(EnemyPos.position, navMeshPath);
 
@@ -147,7 +138,6 @@ public class UniversalController : MonoBehaviour
             return true;
         }
     }
-
     float getPathLength(NavMeshPath navMeshPath)
     {
         float length = 0.0f;
@@ -161,5 +151,13 @@ public class UniversalController : MonoBehaviour
         }
 
         return length;
+    }
+
+    public void addMember(GameObject potentialPlayer) {
+        potentialPlayer.transform.parent = this.gameObject.transform;
+        potentialPlayer.layer = 6;
+        potentialPlayer.GetComponent<IndividualCharacterController>().isInControl = true;
+        potentialPlayer.GetComponent<Animator>().SetBool("IsRunning", true);
+        UpdateAnimators();
     }
 }

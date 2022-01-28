@@ -6,6 +6,7 @@ TagManager:
   tags:
   - leftBorder
   - rightBorder
+  - group
   layers:
   - Default
   - TransparentFX
