@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
 
     public static bool loadUISceneOnce = true;
     bool doOnce = true;
+
+    UIManager uIManager;
+    PlayersManager playersManager;
+
     private void Awake()
     {
         if (loadUISceneOnce)
@@ -57,11 +61,14 @@ public class GameManager : MonoBehaviour
     {
         players = FindObjectOfType<PlayersManager>().transform;
         pathLength = Vector3.Distance(StartingLine.position, EndingLine.position);
-        
-        FindObjectOfType<UIManager>().StartEvent += callStartRunning;
-        FindObjectOfType<UIManager>().RestartEvent += callOnrestart;
-        FindObjectOfType<PlayersManager>().allPlayerDead += CallOnAllPlayerDead;
-        FindObjectOfType<PlayersManager>().onWin += callOnWin;
+
+        uIManager = FindObjectOfType<UIManager>();
+        playersManager = FindObjectOfType<PlayersManager>();
+
+        uIManager.StartEvent += callStartRunning;
+        uIManager.RestartEvent += callOnrestart;
+        playersManager.allPlayerDead += CallOnAllPlayerDead;
+        playersManager.onWin += callOnWin;
     }
 
     // Update is called once per frame
@@ -76,11 +83,11 @@ public class GameManager : MonoBehaviour
 
         if (isCalculatingProgress) calculateProgress();
 
-        if (Input.GetKey(KeyCode.A)) {
+        if (Input.GetKey(KeyCode.A) && players.position.x > PlayersManager.maxLeft) {
             playersMovement?.Invoke(-1, movementSensitivity);
             isMovingLeftToRight = true;
         }
-        else if (Input.GetKey(KeyCode.D)){
+        else if (Input.GetKey(KeyCode.D) && players.position.x < PlayersManager.maxRight){
             playersMovement?.Invoke(1, movementSensitivity);
             isMovingLeftToRight = true;
         }
@@ -107,7 +114,7 @@ public class GameManager : MonoBehaviour
     }
 
     IEnumerator onWin() {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         isCalculatingProgress = false;
         sentResult?.Invoke(true, "Complete", Color.green);
         stopAnimOnPlayers?.Invoke();

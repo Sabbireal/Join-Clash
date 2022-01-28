@@ -17,6 +17,9 @@ public class UIManager : MonoBehaviour
     public event Action RestartEvent;
 
     public static bool loadEvents = false;
+
+    GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,10 +40,13 @@ public class UIManager : MonoBehaviour
 
     void subscribe() {
         Debug.Log("UI Manager Subscribed");
-        FindObjectOfType<GameManager>().showStartBtnEvent += showStartBtn;
-        FindObjectOfType<GameManager>().showRestartBtnEvent += showRestartBtn;
-        FindObjectOfType<GameManager>().sentProgress += setValueOfProgressBar;
-        FindObjectOfType<GameManager>().sentResult += setTxt;
+
+        gameManager = FindObjectOfType<GameManager>();
+
+        gameManager.showStartBtnEvent += showStartBtn;
+        gameManager.showRestartBtnEvent += showRestartBtn;
+        gameManager.sentProgress += setValueOfProgressBar;
+        gameManager.sentResult += setTxt;
 
         Canvas.GetComponent<Canvas>().worldCamera = Camera.main;
     }

@@ -13,6 +13,8 @@ public class IndividualCharacterController : MonoBehaviour
     float MaxLeft = -3.5f;
     float MaxRight = 3.5f;
 
+    GameManager gameManager;
+    PlayersManager playersManager;
     Animator animator;
     // Start is called before the first frame update
     void Start()
@@ -22,8 +24,11 @@ public class IndividualCharacterController : MonoBehaviour
         PlayersManager.maxLeft = MaxLeft;
         PlayersManager.maxRight = MaxRight;
 
+        gameManager = FindObjectOfType<GameManager>();
+        playersManager = FindObjectOfType<PlayersManager>();
+
         animator = GetComponent<Animator>();
-        sprintngSpeed = FindObjectOfType<GameManager>().SprintngSpeed;
+        sprintngSpeed = gameManager.SprintngSpeed;
     }
 
     // Update is called once per frame
@@ -38,11 +43,11 @@ public class IndividualCharacterController : MonoBehaviour
     {
         if (other.gameObject.name == "LeftBorder")
         {
-            PlayersManager.maxLeft = FindObjectOfType<PlayersManager>().gameObject.transform.position.x;
+            PlayersManager.maxLeft = playersManager.gameObject.transform.position.x;
         }
         if (other.gameObject.name == "RightBorder")
         {
-            PlayersManager.maxRight = FindObjectOfType<PlayersManager>().gameObject.transform.position.x;
+            PlayersManager.maxRight = playersManager.gameObject.transform.position.x;
         }
         
         if (other.gameObject.layer == 9 && isInControl)
@@ -62,9 +67,9 @@ public class IndividualCharacterController : MonoBehaviour
     void onCharacterDestroy() {
         isInControl = false;
         transform.parent = null;
-        FindObjectOfType<PlayersManager>().UpdateAnimators();
+        playersManager.UpdateAnimators();
         Vector3 pos = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-        Instantiate(FindObjectOfType<GameManager>().characterDestroyEffect, pos, Quaternion.identity);         
+        Instantiate(gameManager.characterDestroyEffect, pos, Quaternion.identity);         
         Destroy(this.gameObject);
     }
 
@@ -75,23 +80,24 @@ public class IndividualCharacterController : MonoBehaviour
             IndividualCharacterController[] tempArray = neutral.transform.parent.gameObject.GetComponentsInChildren<IndividualCharacterController>();
 
             for (int i = 0; i < tempArray.Length; i++) {
-                FindObjectOfType<PlayersManager>().addMember(tempArray[i].gameObject);
+                playersManager.addMember(tempArray[i].gameObject);
             }
         }
         else {
-            FindObjectOfType<PlayersManager>().addMember(neutral);
+            playersManager.addMember(neutral);
         }
     }
 
     public void attackEnemy(GameObject enemy) {
-        if (enemy.GetComponent<IndividualEnemyController>().isAttacked == false) {
+        IndividualEnemyController individualEnemyController = enemy.GetComponent<IndividualEnemyController>();
+        if (individualEnemyController.isAttacked == false) {
+            individualEnemyController.isAttacked = true;
             this.enemy = enemy;
             isInControl = false;
-            enemy.GetComponent<IndividualEnemyController>().isAttacked = true;
-            enemy.GetComponent<IndividualEnemyController>().player = this.gameObject;
+            individualEnemyController.player = this.gameObject;
 
             transform.parent = null;
-            FindObjectOfType<PlayersManager>().UpdateAnimators();
+            playersManager.UpdateAnimators();
 
             animator.SetFloat("Direction", 2);
 
@@ -107,6 +113,7 @@ public class IndividualCharacterController : MonoBehaviour
 
     void OnCollideWithEnemy()
     {
+        this.gameObject.layer = 0;
         Debug.Log("Collided with enemy");
         goFight = false;
         animator.SetBool("IsDead", true);

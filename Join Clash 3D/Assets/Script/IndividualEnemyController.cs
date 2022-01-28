@@ -41,6 +41,7 @@ public class IndividualEnemyController : MonoBehaviour
 
     public void OnCollisionWithPlayer()
     {
+        this.gameObject.layer = 0;
         Debug.Log("collision with player");
         doRun = false;
         animator.SetBool("IsDead", true);

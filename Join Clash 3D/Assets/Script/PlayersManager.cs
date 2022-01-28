@@ -15,6 +15,8 @@ public class PlayersManager : MonoBehaviour
     public event Action allPlayerDead;
     public event Action onWin;
 
+    GameManager gameManager;
+
     float runningSpeed;
     NavMeshPath navMeshPath;
 
@@ -27,9 +29,10 @@ public class PlayersManager : MonoBehaviour
         UpdateAnimators();
         UpdateisInControl();
 
-        FindObjectOfType<GameManager>().startRunning += StartRunning;
-        FindObjectOfType<GameManager>().playersMovement += MoveToLeftOrRight;
-        FindObjectOfType<GameManager>().stopAnimOnPlayers += stopRunning;
+        gameManager = FindObjectOfType<GameManager>();
+        gameManager.startRunning += StartRunning;
+        gameManager.playersMovement += MoveToLeftOrRight;
+        gameManager.stopAnimOnPlayers += stopRunning;
     }
 
     // Update is called once per frame
@@ -157,7 +160,7 @@ public class PlayersManager : MonoBehaviour
         newPlayer.transform.parent = this.gameObject.transform;
         newPlayer.layer = 6;
         newPlayer.GetComponent<IndividualCharacterController>().isInControl = true;
-        newPlayer.transform.GetChild(0).gameObject.GetComponent<SkinnedMeshRenderer>().material = FindObjectOfType<GameManager>().player_Mat;
+        newPlayer.transform.GetChild(0).gameObject.GetComponent<SkinnedMeshRenderer>().material = gameManager.player_Mat;
         newPlayer.GetComponent<Animator>().SetBool("IsRunning", true);
         UpdateAnimators();
     }
