@@ -6,7 +6,7 @@ using System;
 public class IndividualCharacterController : MonoBehaviour
 {
     public bool isInControl = false;
-    float SprintngSpeed = 0;
+    float sprintngSpeed = 0;
     bool goFight = false;
     GameObject enemy;
 
@@ -23,7 +23,7 @@ public class IndividualCharacterController : MonoBehaviour
         UniversalController.maxRight = MaxRight;
 
         animator = GetComponent<Animator>();
-        SprintngSpeed = FindObjectOfType<GameManager>().SprintngSpeed;
+        sprintngSpeed = FindObjectOfType<GameManager>().SprintngSpeed;
     }
 
     // Update is called once per frame
@@ -44,22 +44,20 @@ public class IndividualCharacterController : MonoBehaviour
         {
             UniversalController.maxRight = FindObjectOfType<UniversalController>().gameObject.transform.position.x;
         }
+        
         if (other.gameObject.layer == 9 && isInControl)
         {
             onCharacterDestroy();
         }
-
-        if (other.gameObject.layer == 8 && isInControl)
+        else if (other.gameObject.layer == 8 && isInControl)
         {
             OnCollideWithNeutral();
         }
-
-        if (other.gameObject.layer == 11)
+        else if (other.gameObject.layer == 11)
         {
             OnCollideWithEnemyTrigger(other.transform.parent.gameObject);
         }
-
-        if (other.gameObject.layer == 10 && !isInControl)
+        else if (other.gameObject.layer == 10 && !isInControl)
         {
             OnCollideWithEnemy();
         }
@@ -98,7 +96,7 @@ public class IndividualCharacterController : MonoBehaviour
 
     void goToFight() {
         transform.LookAt(enemy.transform);
-        transform.position += transform.forward * SprintngSpeed * Time.deltaTime;
+        transform.position += transform.forward * sprintngSpeed * Time.deltaTime;
     }
 
     void OnCollideWithEnemy()
